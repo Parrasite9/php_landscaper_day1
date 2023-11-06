@@ -6,11 +6,54 @@
     $workItems = ["Teeth", "Scissors", "Push Mower", "Drive Mower"];
     // STARTING WORKITEM 
     $currentItem = $workItems[0];
+
+    // COST TO UPGRADE 
     $purchaseUpgrade = [5, 25, 50, 75];
+    // UPGRADE STARTING POINT 
+    $upgradeCost = $purchaseUpgrade[0];
+
+    // INCOME AMOUNTS 
     $earnIncome = [1, 4, 10, 25 ];
+    // INCOME STARTING POINTS 
+    $currentIncome = $earnIncome[0];
+
+
+    function work() {
+        // ACCESS BALANCE VARIABLE 
+        global $balance;
+        // ACCESS CURRENT INCOME AMOUNT VARIABLE 
+        global $currentIncome;
+
+        // UPDATES BALANCE BY ADDING THE CURRENT INCOME TO THE CURRENT BALANCE 
+        $balance = $balance + $currentIncome;
+
+        echo "You decided to cut some grass and you earned $" . $currentIncome . "! \n";
+
+        echo "Do you want to go home for the day or cut more grass? \n";
+
+        echo "Press S to stay or H for home \n";
+
+        // USER INPUT ON IF THEY WANT TO STAY OR LEAVE 
+        $stayOrLeave = trim(fgets(STDIN));
+
+        // IF THE USER DECIDES TO STAY 
+        if ($stayOrLeave == "S") {
+            // RUN THE WORK() AGAIN 
+            work();
+        // IF USER DECIDES TO LEAVE 
+        } else {
+            echo "Your current balance is $" . $balance . "\n";
+            echo "You go home, eat, sleep, and before you can enjoy yourself, it's time to go back to work. \n";
+        }
+
+
+        
+    }
 
     function accessStore() {
+        // ACCESS THE CURRENT ITEM VARIABLE 
         global $currentItem;
+        // ACCESS THE CURRENT BALANCE 
         global $balance;
 
 
@@ -24,16 +67,22 @@
         // IF ITEM NEEDS TO BE UPGRADED 
         if ($upgradeResponse == 'Y') {
             global $workItems;
+            global $balance;
+            global $upgradeCost;
 
-            echo "Your previous item was $currentItem. \n";
-            // Get the index of $currentItem in $workItems
-            $currentIndex = array_search($currentItem, $workItems);
-        
-            // Check if $currentItem is not the last item in $workItems
-            if ($currentIndex !== false && $currentIndex < count($workItems) - 1) {
-                // Move to the next item in $workItems
-                $currentItem = $workItems[$currentIndex + 1];
-                echo "Your current Item is now $currentItem. \n";
+            if ($balance < $upgradeCost) {
+                echo "You do not have enough money! Your balance is $" . $balance . " and you need $" . $upgradeCost . " for this upgrade \n";
+            } else {
+                echo "Your previous item was $currentItem. \n";
+                // Get the index of $currentItem in $workItems
+                $currentIndex = array_search($currentItem, $workItems);
+            
+                // Check if $currentItem is not the last item in $workItems
+                if ($currentIndex !== false && $currentIndex < count($workItems) - 1) {
+                    // Move to the next item in $workItems
+                    $currentItem = $workItems[$currentIndex + 1];
+                    echo "Your current Item is now $currentItem. \n";
+                }
             }
         }
     }
@@ -51,13 +100,15 @@
         // IF STORE IS ACCESSED 
         if ($openStore == "S" ) {
             accessStore();
+        } else {
+            work();
         }
 
 
         
-        // if ($balance < 100) {
-        //     workOrStore();
-        // }
+        if ($balance < 100) {
+            workOrStore();
+        }
     }
 
     workOrStore();
