@@ -3,13 +3,16 @@
     // STARTING BALANCE OF PROGRAM 
     $balance = 0;
     // ITEMS USED THROUGHOUT THE PROGRAM 
-    $workItems = ["teeth", "scissors"];
+    $workItems = ["Teeth", "Scissors", "Push Mower", "Drive Mower"];
     // STARTING WORKITEM 
     $currentItem = $workItems[0];
+    $purchaseUpgrade = [5, 25, 50, 75];
+    $earnIncome = [1, 4, 10, 25 ];
 
     // STARTING FUNCTION 
     function workOrStore() {
         global $currentItem;
+        global $balance;
 
         // WORK OR ACCESS THE STORE? 
         echo "Press W to work or S to shop \n";
@@ -29,7 +32,7 @@
             if ($upgradeResponse == 'Y') {
                 global $workItems;
 
-                echo "Your current item was $currentItem. \n";
+                echo "Your previous item was $currentItem. \n";
                 // Get the index of $currentItem in $workItems
                 $currentIndex = array_search($currentItem, $workItems);
             
@@ -41,7 +44,11 @@
                 }
             }
             
-        } 
+        }
+        
+        // if ($balance < 100) {
+        //     workOrStore();
+        // }
     }
 
     workOrStore();
