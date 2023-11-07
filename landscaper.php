@@ -69,19 +69,27 @@
             global $workItems;
             global $balance;
             global $upgradeCost;
+            global $earnIncome;
+            global $currentIncome;
 
             if ($balance < $upgradeCost) {
                 echo "You do not have enough money! Your balance is $" . $balance . " and you need $" . $upgradeCost . " for this upgrade \n";
             } else {
                 echo "Your previous item was $currentItem. \n";
                 // Get the index of $currentItem in $workItems
-                $currentIndex = array_search($currentItem, $workItems);
-            
+                $currentItemIndex = array_search($currentItem, $workItems);
+
+                // GET THE INDEX OF $CURRENTINCOME FROM $EARNINCOME 
+                $currentIncomeIndex = array_search($currentIncome, $earnIncome); 
+
                 // Check if $currentItem is not the last item in $workItems
-                if ($currentIndex !== false && $currentIndex < count($workItems) - 1) {
+                if ($currentItemIndex !== false && $currentItemIndex < count($workItems) - 1) {
                     // Move to the next item in $workItems
-                    $currentItem = $workItems[$currentIndex + 1];
+                    $currentItem = $workItems[$currentItemIndex + 1];
+
+                    //Move to next item in $earnIncome
                     echo "Your current Item is now $currentItem. \n";
+                    $currentIncome = $earnIncome[$currentIncomeIndex + 1];
                 }
             }
         }
@@ -106,8 +114,10 @@
 
 
         
-        if ($balance < 100) {
+        if ($balance < 1000) {
             workOrStore();
+        } else {
+            echo "Congratz on earning $" . $balance . "! You have won the game!";
         }
     }
 
